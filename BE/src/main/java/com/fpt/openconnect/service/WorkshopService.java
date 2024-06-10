@@ -175,4 +175,9 @@ public class WorkshopService implements WorkshopServiceImp {
         }
     }
 
+    @Override
+    public List<WorkshopResponse> getWorkshopByIdCategory(int idCategoryWorkshop) {
+        return List.of();
+    }
+
 }

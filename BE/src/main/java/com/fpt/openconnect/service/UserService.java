@@ -23,6 +23,13 @@ public class UserService implements UserServiceImp {
     @Value("${root.folder}")
     private String rootFolder;
 
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private RoleRepository roleRepository;
+
     @Override
     public boolean loginUser(String usernameOrEmailOrPhone, String password) throws IOException {
         // Kiểm tra xem usernameOrEmailOrPhone có phải là username, email hoặc phone
@@ -51,11 +58,7 @@ public class UserService implements UserServiceImp {
         return false;
     }
 
-    @Autowired
-    private UserRepository userRepository;
 
-    @Autowired
-    private RoleRepository roleRepository;
 
     @Override
     public boolean insertUser(String username, String password, String email, String phone) throws IOException {
@@ -79,45 +82,53 @@ public class UserService implements UserServiceImp {
     }
 
     @Override
-public boolean updateUser(String userName, String password, String email, String phone, String address, MultipartFile imageUser) throws IOException {
+    public boolean updateUser(String userName, String password, String email, String phone, String address, MultipartFile imageUser) throws IOException {
         // Kiểm tra xem người dùng có tồn tại không
         Optional<UserEntity> existingUser = userRepository.findByUsername(userName);
-        if (!existingUser.isPresent()) {
+        if (existingUser.isPresent()) {
+            UserEntity user = existingUser.get();
+            // Cập nhật thông tin người dùng
+            if (password != null) {
+                user.setPassword(password);
+            }
+            if (email != null) {
+                user.setEmail(email);
+            }
+            if (phone != null) {
+                user.setPhone(Integer.parseInt(phone));
+            }
+            if (address != null) {
+                user.setAddress(address);
+            }
+            // Xử lý hình ảnh người dùng nếu được cung cấp
+            if (imageUser != null) {
+                String imagePath = rootFolder + "\\" + imageUser.getOriginalFilename();
+                Path path = Paths.get(rootFolder);
+                Path imagePathCopy = Paths.get(imagePath);
+
+                // Kiểm tra và tạo thư mục nếu không tồn tại
+                if (!Files.exists(path)) {
+                    Files.createDirectory(path);
+                }
+
+                // Sao chép hình ảnh vào thư mục
+                Files.copy(imageUser.getInputStream(), imagePathCopy, StandardCopyOption.REPLACE_EXISTING);
+
+                // Cập nhật đường dẫn hình ảnh cho người dùng
+                user.setImage(imagePath);
+            }
+
+            // Lưu thay đổi vào cơ sở dữ liệu
+            userRepository.save(user);
+
+            // Trả về true để chỉ ra rằng người dùng đã được cập nhật thành công
+            return true;
+        } else {
             // Trả về false nếu không tìm thấy người dùng
             return false;
         }
-
-        UserEntity user = existingUser.get();
-        // Cập nhật thông tin người dùng
-        user.setPassword(password);
-        user.setEmail(email);
-        user.setPhone(Integer.parseInt(phone));
-        user.setAddress(address);
-
-        // Xử lý hình ảnh người dùng nếu được cung cấp
-        if (imageUser != null) {
-            String imagePath = rootFolder + "\\" + imageUser.getOriginalFilename();
-            Path path = Paths.get(rootFolder);
-            Path imagePathCopy = Paths.get(imagePath);
-
-            // Kiểm tra và tạo thư mục nếu không tồn tại
-            if (!Files.exists(path)) {
-                Files.createDirectory(path);
-            }
-
-            // Sao chép hình ảnh vào thư mục
-            Files.copy(imageUser.getInputStream(), imagePathCopy, StandardCopyOption.REPLACE_EXISTING);
-
-            // Cập nhật đường dẫn hình ảnh cho người dùng
-            user.setImage(imagePath);
-        }
-
-        // Lưu thay đổi vào cơ sở dữ liệu
-        userRepository.save(user);
-
-        // Trả về true để chỉ ra rằng người dùng đã được cập nhật thành công
-        return true;
     }
+
 
 
 

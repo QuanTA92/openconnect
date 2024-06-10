@@ -17,7 +17,7 @@ public class CartEntity {
     @Column(name = "quantity_ticket")
     private int quantityTicket;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "id_user")
     private UserEntity userEntity;
 
@@ -59,13 +59,7 @@ public class CartEntity {
         this.quantityTicket = quantityTicket;
     }
 
-    public UserEntity getUserEntity() {
-        return userEntity;
-    }
 
-    public void setUserEntity(UserEntity userEntity) {
-        this.userEntity = userEntity;
-    }
 
     public ProductEntity getProductEntity() {
         return productEntity;
@@ -97,6 +91,14 @@ public class CartEntity {
 
     public void setPriceCart(Double priceCart) {
         this.priceCart = priceCart;
+    }
+
+    public UserEntity getUserEntity() {
+        return userEntity;
+    }
+
+    public void setUserEntity(UserEntity userEntity) {
+        this.userEntity = userEntity;
     }
 }
 

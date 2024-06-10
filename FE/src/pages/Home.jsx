@@ -8,14 +8,14 @@ function Home() {
   return (
     <>
       <Header />
-      <Categories/>
-      <Product/>
-      <Discount/>
-      <Services/>
-      <Facebook/>
+      <Categories />
+      <Product />
+      <Discount />
+      <Services />
+      <Facebook />
       <Footer />
     </>
-  )
+  );
 }
 
-export default Home
+export default Home;

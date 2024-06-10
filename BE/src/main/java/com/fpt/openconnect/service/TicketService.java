@@ -71,7 +71,7 @@ public class TicketService implements TicketServiceImp {
 
             ticketResponse.setNameTicket(ticketEntity.getNameTicket());
 
-            ticketResponse.setIdTicket(ticketResponse.getIdTicket());
+            ticketResponse.setIdTicket(ticketEntity.getId());
 
             ticketResponse.setPriceTicket(ticketEntity.getPriceTicket());
 
@@ -80,6 +80,8 @@ public class TicketService implements TicketServiceImp {
             ticketResponse.setQuantityTicket(ticketEntity.getQuantityTicket());
             ticketResponse.setImageTicket(ticketEntity.getImageTicket());
             ticketResponse.setNameWorkshop(ticketEntity.getWorkshop().getNameWorkshop());
+
+
             ticketResponses.add(ticketResponse);
         }
 

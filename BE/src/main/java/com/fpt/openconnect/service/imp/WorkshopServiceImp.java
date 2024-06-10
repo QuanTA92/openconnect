@@ -21,4 +21,6 @@ public interface WorkshopServiceImp {
     boolean updateWorkshopById(int idWorkshop, String nameWorkshop, String descriptionWorkshop,
                                String timeWorkshop, String addressWorkshop, MultipartFile imageWorkshop,
                                int idCompanyWorkshop, int idCategoryWorkshop) throws IOException;
+
+    List<WorkshopResponse> getWorkshopByIdCategory(int idCategoryWorkshop);
 }
