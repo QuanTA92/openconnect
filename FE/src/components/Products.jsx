@@ -16,8 +16,8 @@ const Products = () => {
   const dispatch = useDispatch();
 
   const addProduct = (product) => {
-    dispatch(addCart(product))
-  }
+    dispatch(addCart(product));
+  };
 
   useEffect(() => {
     const getProducts = async () => {
@@ -66,11 +66,60 @@ const Products = () => {
   const ShowProducts = () => {
     return (
       <>
+        <div className="buttons text-center py-5">
+          <button
+            className="btn btn-outline-dark btn-sm m-2"
+            // onClick={() => setFilterProduct(data)}
+          >
+            All
+          </button>
+          <button
+            className="btn btn-outline-dark btn-sm m-2"
+            // onClick={() => filterProductHandler("Làm nến")}
+          >
+            Làm nến
+          </button>
+          <button
+            className="btn btn-outline-dark btn-sm m-2"
+            // onClick={() => filterProductHandler("Cắm hoa")}
+          >
+            Cắm hoa
+          </button>
+          <button
+            className="btn btn-outline-dark btn-sm m-2"
+            // onClick={() => filterProductHandler("Làm bánh")}
+          >
+            Làm bánh
+          </button>
+          <button
+            className="btn btn-outline-dark btn-sm m-2"
+            // onClick={() => filterProductHandler("Vẽ tranh")}
+          >
+            Vẽ tranh
+          </button>
+          <button
+            className="btn btn-outline-dark btn-sm m-2"
+            // onClick={() => filterProductHandler("Làm gốm")}
+          >
+            Làm gốm
+          </button>
+        </div>
         {filter.map((workshop) => {
           return (
-            <div id={workshop.idWorkshop} key={workshop.idWorkshop} className="col-md-4 col-sm-6 col-xs-8 col-12 mb-4">
+            <div
+              id={workshop.idWorkshop}
+              key={workshop.idWorkshop}
+              className="col-md-4 col-sm-6 col-xs-8 col-12 mb-4"
+            >
               <div className="card text-center h-100" key={workshop.idWorkshop}>
-                <img className="card-img-top p-3" src={`http://localhost:8080/images/${workshop.imageWorkshop.split("\\").pop()}`} alt="Card" height="300" />
+                <img
+                  className="card-img-top p-3"
+                  src={`http://localhost:8080/images/${workshop.imageWorkshop
+                    .split("\\")
+                    .pop()}`}
+                  alt="Card"
+                  height="300"
+                />
                 <div className="card-body">
                   <h5 className="card-title">
                     {workshop.nameWorkshop.substring(0, 12)}...
@@ -80,10 +129,15 @@ const Products = () => {
                   </p>
                 </div>
                 <ul className="list-group list-group-flush">
-                  <li className="list-group-item lead">{workshop.timeWorkshop}</li>
+                  <li className="list-group-item lead">
+                    {workshop.timeWorkshop}
+                  </li>
                 </ul>
                 <div className="card-body">
-                  <Link to={"/product/" + workshop.idWorkshop} className="btn btn-dark m-1">
+                  <Link
+                    to={"/product/" + workshop.idWorkshop}
+                    className="btn btn-dark m-1"
+                  >
                     View Workshop
                   </Link>
                   {/* <button className="btn btn-dark m-1" onClick={() => addProduct(workshop)}>

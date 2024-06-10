@@ -8,9 +8,18 @@ public class CartResponse {
 
     private int idTicket;
 
+    private int idCart;
+
     private String nameProduct;
 
+
     private String nameTicket;
+
+
+    private String nameWorkshop;
+
+    private String imageWorkshop;
+
 
     private double priceProduct;
 
@@ -100,5 +109,29 @@ public class CartResponse {
 
     public void setTotalPrice(double totalPrice) {
         this.totalPrice = totalPrice;
+    }
+
+    public String getImageWorkshop() {
+        return imageWorkshop;
+    }
+
+    public void setImageWorkshop(String imageWorkshop) {
+        this.imageWorkshop = imageWorkshop;
+    }
+
+    public String getNameWorkshop() {
+        return nameWorkshop;
+    }
+
+    public void setNameWorkshop(String nameWorkshop) {
+        this.nameWorkshop = nameWorkshop;
+    }
+
+    public int getIdCart() {
+        return idCart;
+    }
+
+    public void setIdCart(int idCart) {
+        this.idCart = idCart;
     }
 }

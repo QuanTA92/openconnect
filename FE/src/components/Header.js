@@ -26,9 +26,9 @@ export default function Header() {
             .replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/");
         });
 
-        // Cập nhật trạng thái người dùng và hiển thị thông báo
+        // Cập nhật trạng thái người dùng và chuyển hướng về trang chính
         setUser(null);
-        // alert("Logged out successfully.");
+        window.location.href = "/"; // Chuyển hướng về trang chính
       } else {
         console.error("Đăng xuất không thành công");
       }
@@ -36,6 +36,7 @@ export default function Header() {
       console.error("Lỗi khi thực hiện đăng xuất:", error);
     }
   };
+
 
 
   return (
@@ -60,12 +61,12 @@ export default function Header() {
                     Workshop
                   </Link>
                 </li>
-                <li>
+                {/* <li>
                   <Link to="/shop" className="nav-link">
                     History
                   </Link>
-                </li>
-                <li className="dropdown">
+                </li> */}
+                {/* <li className="dropdown">
                   <Link
                     to="#"
                     className="nav-link dropdown-toggle"
@@ -93,7 +94,7 @@ export default function Header() {
                       </Link>
                     </li>
                   </ul>
-                </li>
+                </li> */}
                 <li>
                   <Link to="/About" className="nav-link">
                     About Us
@@ -111,6 +112,18 @@ export default function Header() {
             <div className="header__right">
               {user ? (
                 <ul className="header__right__widget">
+                  <li>
+                    <Link to="#" className="nav-link">
+                      <span className="icon_heart_alt"></span>
+                      <div className="tip">2</div>
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="/Cart" className="nav-link">
+                      <span className="icon_bag_alt"></span>
+                      {/* <div className="tip">2</div> */}
+                    </Link>
+                  </li>
                   <li className="nav-item dropdown">
                     <a
                       className="nav-link dropdown-toggle d-flex align-items-center"
@@ -129,7 +142,6 @@ export default function Header() {
                       />
                       <span className="ms-1">{user}</span>
                     </a>
-
                     <ul
                       className="dropdown-menu"
                       aria-labelledby="navbarDropdownMenuLink"
@@ -165,8 +177,6 @@ export default function Header() {
                     Register
                   </Link>
                 </div>
-
-
               )}
             </div>
           </div>

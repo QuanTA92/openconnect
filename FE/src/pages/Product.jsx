@@ -4,35 +4,100 @@ import { Link, useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { addCart } from "../redux/action";
 import { Footer, Header } from "../components";
+import Swal from "sweetalert2";
 
 const Product = () => {
   const { id } = useParams();
   const [product, setProduct] = useState({});
   const [tickets, setTickets] = useState([]);
   const [loading, setLoading] = useState(false);
-
   const dispatch = useDispatch();
 
-  const addProduct = (product) => {
-    dispatch(addCart(product));
+  const addProduct = async (ticket) => {
+    try {
+      // Lấy thông tin người dùng từ cookie
+      const cookies = document.cookie.split(";");
+      let userId = null;
+
+      cookies.forEach((cookie) => {
+        const [name, value] = cookie.trim().split("=");
+        if (name === "userId") {
+          userId = value;
+        }
+      });
+
+      if (!userId) {
+        console.error("User ID is missing.");
+        alert("User ID is missing. Please log in again.");
+        return;
+      }
+
+      // Xây dựng request body
+      const requestBody = {
+        quantityProduct: 1,
+        quantityTicket: 1,
+        idUser: userId,
+        idProduct: null, // Không có sản phẩm liên kết
+        idTicket: ticket.idTicket, // ID của vé
+      };
+
+      // Gửi request POST đến đường dẫn http://localhost:8080/cart
+      const response = await fetch("http://localhost:8080/cart", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(requestBody),
+      });
+
+      if (response.ok) {
+        // Nếu thành công, thêm vé vào giỏ hàng Redux
+        dispatch(addCart(ticket));
+        // alert("Ticket added to cart successfully!");
+
+        Swal.fire({
+          icon: "success",
+          title: "Thêm vé thành công",
+          text: "Vui lòng thanh toán!",
+          confirmButtonText: "OK",
+        });
+      } else {
+        // Xử lý khi có lỗi
+        alert("Failed to add ticket to cart.");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      alert("An error occurred while adding ticket to cart.");
+    }
   };
 
   useEffect(() => {
-    const getProduct = async () => {
-      setLoading(true);
-      const response = await fetch(`http://localhost:8080/workshop/${id}`);
-      const data = await response.json();
-      setProduct(data.data[0]);
-      setLoading(false);
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        // Fetch workshop data
+        const workshopResponse = await fetch(
+          `http://localhost:8080/workshop/${id}`
+        );
+        const workshopData = await workshopResponse.json();
+        setProduct(workshopData.data[0]);
 
-      // Fetch tickets for the workshop
-      const ticketsResponse = await fetch(
-        `http://localhost:8080/ticket/getAllTicketsByIdWorkshop/${id}`
-      );
-      const ticketsData = await ticketsResponse.json();
-      setTickets(ticketsData.data);
+        // Fetch tickets for the workshop
+        const ticketsResponse = await fetch(
+          `http://localhost:8080/ticket/getAllTicketsByIdWorkshop/${id}`
+        );
+        const ticketsData = await ticketsResponse.json();
+        setTickets(ticketsData.data);
+
+        setLoading(false);
+      } catch (error) {
+        console.error("Error:", error);
+        alert("An error occurred while fetching workshop data.");
+        setLoading(false);
+      }
     };
-    getProduct();
+
+    fetchData();
   }, [id]);
 
   const Loading = () => (
@@ -71,7 +136,7 @@ const Product = () => {
             height="400px"
           />
         </div>
-        <div className="col-md-6 col-md-6 py-5">
+        <div className="col-md-6 col-md-6 py-5 d-flex flex-column align-items-start">
           <h4 className="text-uppercase text-muted">
             {product.nameCategoryWorkshop}
           </h4>
@@ -79,55 +144,25 @@ const Product = () => {
           <p className="lead">{product.addressWorkshop}</p>
           <h3 className="display-6 my-4">{product.timeWorkshop}</h3>
           <p className="lead">{product.descriptionWorkshop}</p>
-        </div>
-
-        <div className="col-md-12">
-          <div className="portlet light bordered">
-            <div className="portlet-title tabbable-line">
-              <div className="caption caption-md">
-                <i className="icon-globe theme-font hide"></i>
-                <h4 className="caption-subject font-blue-madison bold uppercase">
-                  {product.timeWorkshop}, {product.addressWorkshop}
-                </h4>
-              </div>
-            </div>
-            <div className="portlet-body">
-              <table className="table">
-                <thead>
-                  <tr className="active">
-                    <th scope="col">Vé</th>
-                    <th scope="col">Mô tả</th>
-                    <th scope="col">Giá</th>
-                    <th className="d-flex justify-content-end">
-                      <Link to="/cart" className="btn btn-outline-dark">
-                        Thanh toán
-                      </Link>
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {tickets.map((ticket, index) => (
-                    <tr key={index}>
-                      <td>{ticket.nameTicket}</td>
-                      <td>{ticket.descriptionTicket}</td>
-                      <td>{ticket.priceTicket} đ</td>
-                      <td className="d-flex justify-content-end">
-                        <button
-                          className="btn btn-outline-dark"
-                          onClick={() => addProduct(ticket)}
-                        >
-                          Mua vé
-                        </button>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+          {/* Nút "Add to Cart" cho từng vé */}
+          <div className="d-flex align-items-center">
+            {tickets.map((ticket) => (
+              <button
+                key={ticket.idTicket}
+                className="btn btn-outline-dark me-2 mb-2"
+                onClick={() => addProduct(ticket)}
+              >
+                {ticket.nameTicket}
+              </button>
+            ))}
+            <Link to="/cart" className="btn btn-dark mx-3">
+              Thanh toán
+            </Link>
           </div>
         </div>
 
         <div>
+          <br />
           <h4>Ban tổ chức</h4>
 
           <div className="d-flex align-items-center">

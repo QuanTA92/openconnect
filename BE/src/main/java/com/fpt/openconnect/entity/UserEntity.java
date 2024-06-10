@@ -3,7 +3,9 @@ package com.fpt.openconnect.entity;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity(name = "user")
 public class UserEntity {
@@ -36,8 +38,8 @@ public class UserEntity {
     @JoinColumn(name = "id_role")
     private RoleEntity role;
 
-    @OneToOne(mappedBy = "userEntity")
-    private CartEntity cartEntity;
+    @OneToMany(mappedBy = "userEntity", cascade = CascadeType.ALL)
+    private List<CartEntity> carts = new ArrayList<>();
 
     public int getId() {
         return id;
@@ -111,13 +113,11 @@ public class UserEntity {
         this.createDate = createDate;
     }
 
-    public CartEntity getCartEntity() {
-        return cartEntity;
+    public List<CartEntity> getCarts() {
+        return carts;
     }
 
-    public void setCartEntity(CartEntity cartEntity) {
-        this.cartEntity = cartEntity;
+    public void setCarts(List<CartEntity> carts) {
+        this.carts = carts;
     }
-
-
 }
