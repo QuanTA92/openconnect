@@ -1,6 +1,7 @@
 package com.fpt.openconnect.service;
 
 import com.fpt.openconnect.repository.CartRepository;
+import com.fpt.openconnect.repository.OrdersRepository;
 import com.fpt.openconnect.repository.ProductTicketOrderRepository;
 import com.fpt.openconnect.service.imp.ProductTicketOrderImp;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,5 +15,9 @@ public class ProductTicketOrderService implements ProductTicketOrderImp {
 
     @Autowired
     private CartRepository cartRepository;
+
+    @Autowired
+    private OrdersRepository ordersRepository;
+
 
 }

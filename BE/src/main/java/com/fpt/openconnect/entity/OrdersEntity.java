@@ -31,6 +31,10 @@ public class OrdersEntity {
     @Column(name = "create_date")
     private Date createDate;
 
+    @ManyToOne
+    @JoinColumn(name = "id_user")
+    private UserEntity user;
+
     public Date getCreateDate() {
         return createDate;
     }
@@ -87,4 +91,11 @@ public class OrdersEntity {
         this.status = status;
     }
 
+    public UserEntity getUser() {
+        return user;
+    }
+
+    public void setUser(UserEntity user) {
+        this.user = user;
+    }
 }

@@ -1,5 +1,6 @@
 package com.fpt.openconnect.service.imp;
 
+import com.fpt.openconnect.entity.CartEntity;
 import com.fpt.openconnect.payload.response.CartResponse;
 
 import java.io.IOException;
@@ -13,4 +14,5 @@ public interface CartServiceImp {
     List<CartResponse> getCartByIdUser(int idUser);
 
     boolean deleteCartById(int idCart);
+
 }

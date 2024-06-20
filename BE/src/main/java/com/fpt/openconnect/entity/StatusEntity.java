@@ -21,6 +21,9 @@ public class StatusEntity {
     @Column(name = "create_date")
     private Date createDate;
 
+    public StatusEntity(int i) {
+    }
+
     public Date getCreateDate() {
         return createDate;
     }
