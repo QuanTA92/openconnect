@@ -41,6 +41,9 @@ public class UserEntity {
     @OneToMany(mappedBy = "userEntity", cascade = CascadeType.ALL)
     private List<CartEntity> carts = new ArrayList<>();
 
+    @OneToMany(mappedBy = "user")
+    private List<OrdersEntity> ordersEntities;
+
     public int getId() {
         return id;
     }
@@ -119,5 +122,13 @@ public class UserEntity {
 
     public void setCarts(List<CartEntity> carts) {
         this.carts = carts;
+    }
+
+    public List<OrdersEntity> getOrdersEntities() {
+        return ordersEntities;
+    }
+
+    public void setOrdersEntities(List<OrdersEntity> ordersEntities) {
+        this.ordersEntities = ordersEntities;
     }
 }

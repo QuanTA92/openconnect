@@ -7,4 +7,6 @@ import java.util.List;
 public interface CategoryWorkshopServiceImp {
 
     List<CategoryWorkshopResponse> getAllCategoryWorkshop();
+
+    List<CategoryWorkshopResponse> getWorkshopByIdCategory(int idCategory);
 }

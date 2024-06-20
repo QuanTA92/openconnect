@@ -6,6 +6,19 @@ public class CategoryWorkshopResponse {
 
     private String nameCategoryWorkshop;
 
+    private int idWorkshop;
+
+    private String nameWorkshop;
+
+    private String descriptionWorkshop;
+
+
+    private String timeWorkshop;
+
+    private String imageWorkshop;
+
+
+
     public int getIdCategoryWorkshop() {
         return idCategoryWorkshop;
     }
@@ -20,5 +33,45 @@ public class CategoryWorkshopResponse {
 
     public void setNameCategoryWorkshop(String nameCategoryWorkshop) {
         this.nameCategoryWorkshop = nameCategoryWorkshop;
+    }
+
+    public int getIdWorkshop() {
+        return idWorkshop;
+    }
+
+    public void setIdWorkshop(int idWorkshop) {
+        this.idWorkshop = idWorkshop;
+    }
+
+    public String getNameWorkshop() {
+        return nameWorkshop;
+    }
+
+    public void setNameWorkshop(String nameWorkshop) {
+        this.nameWorkshop = nameWorkshop;
+    }
+
+    public String getDescriptionWorkshop() {
+        return descriptionWorkshop;
+    }
+
+    public void setDescriptionWorkshop(String descriptionWorkshop) {
+        this.descriptionWorkshop = descriptionWorkshop;
+    }
+
+    public String getTimeWorkshop() {
+        return timeWorkshop;
+    }
+
+    public void setTimeWorkshop(String timeWorkshop) {
+        this.timeWorkshop = timeWorkshop;
+    }
+
+    public String getImageWorkshop() {
+        return imageWorkshop;
+    }
+
+    public void setImageWorkshop(String imageWorkshop) {
+        this.imageWorkshop = imageWorkshop;
     }
 }
