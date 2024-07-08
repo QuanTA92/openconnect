@@ -1,6 +1,9 @@
 package com.fpt.openconnect.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -39,6 +42,7 @@ public class UserEntity {
     private RoleEntity role;
 
     @OneToMany(mappedBy = "userEntity", cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<CartEntity> carts = new ArrayList<>();
 
     @OneToMany(mappedBy = "user")
@@ -100,20 +104,20 @@ public class UserEntity {
         this.image = image;
     }
 
-    public RoleEntity getRole() {
-        return role;
-    }
-
-    public void setRole(RoleEntity role) {
-        this.role = role;
-    }
-
     public Date getCreateDate() {
         return createDate;
     }
 
     public void setCreateDate(Date createDate) {
         this.createDate = createDate;
+    }
+
+    public RoleEntity getRole() {
+        return role;
+    }
+
+    public void setRole(RoleEntity role) {
+        this.role = role;
     }
 
     public List<CartEntity> getCarts() {

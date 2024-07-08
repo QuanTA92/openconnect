@@ -1,5 +1,8 @@
 package com.fpt.openconnect.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 import java.util.Date;
@@ -7,18 +10,20 @@ import java.util.List;
 
 @Entity(name = "cart")
 public class CartEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @Column(name = "quantity_product")
-    private int quantityProduct;
+    private Integer quantityProduct;
 
     @Column(name = "quantity_ticket")
-    private int quantityTicket;
+    private Integer quantityTicket;
 
     @ManyToOne
     @JoinColumn(name = "id_user")
+    @JsonIgnore
     private UserEntity userEntity;
 
     @ManyToOne
@@ -43,23 +48,29 @@ public class CartEntity {
         this.id = id;
     }
 
-    public int getQuantityProduct() {
+    public Integer getQuantityProduct() {
         return quantityProduct;
     }
 
-    public void setQuantityProduct(int quantityProduct) {
+    public void setQuantityProduct(Integer quantityProduct) {
         this.quantityProduct = quantityProduct;
     }
 
-    public int getQuantityTicket() {
+    public Integer getQuantityTicket() {
         return quantityTicket;
     }
 
-    public void setQuantityTicket(int quantityTicket) {
+    public void setQuantityTicket(Integer quantityTicket) {
         this.quantityTicket = quantityTicket;
     }
 
+    public UserEntity getUserEntity() {
+        return userEntity;
+    }
 
+    public void setUserEntity(UserEntity userEntity) {
+        this.userEntity = userEntity;
+    }
 
     public ProductEntity getProductEntity() {
         return productEntity;
@@ -91,14 +102,6 @@ public class CartEntity {
 
     public void setPriceCart(Double priceCart) {
         this.priceCart = priceCart;
-    }
-
-    public UserEntity getUserEntity() {
-        return userEntity;
-    }
-
-    public void setUserEntity(UserEntity userEntity) {
-        this.userEntity = userEntity;
     }
 }
 

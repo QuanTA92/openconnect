@@ -3,15 +3,19 @@ import Categories from "../components/Categories";
 import Discount from "../components/Discount";
 import Facebook from "../components/Facebook";
 import Services from "../components/Services";
+import Workshop from "../components/Workshop";
 
 function Home() {
   return (
     <>
       <Header />
       <Categories />
-      <Product />
+      {/* <Product /> */}
+      <Workshop />
+      <br />
       <Discount />
-      <Services />
+      <br />
+      {/* <Services /> */}
       <Facebook />
       <Footer />
     </>

@@ -2,6 +2,7 @@ package com.fpt.openconnect.controller;
 
 import com.fpt.openconnect.entity.UserEntity;
 import com.fpt.openconnect.payload.response.BaseResponse;
+import com.fpt.openconnect.payload.response.UserResponse;
 import com.fpt.openconnect.repository.UserRepository;
 import com.fpt.openconnect.service.UserService;
 import com.fpt.openconnect.service.imp.UserServiceImp;
@@ -16,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
 @CrossOrigin
@@ -207,6 +209,29 @@ public class UserController {
     }
 
 
+    @GetMapping("/{idUser}")
+    public ResponseEntity<BaseResponse> getProfileUserById(@PathVariable int idUser) {
+        BaseResponse response = new BaseResponse();
+
+        try {
+            List<UserResponse> userResponses = userServiceImp.getProfileUserById(idUser);
+
+            if (userResponses.isEmpty()) {
+                response.setStatusCode(HttpStatus.NOT_FOUND.value());
+                response.setMessage("User not found with id: " + idUser);
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+            }
+
+            response.setStatusCode(HttpStatus.OK.value());
+            response.setMessage("Successfully retrieved user profile with id: " + idUser);
+            response.setData(userResponses);
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            response.setStatusCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
+            response.setMessage("Failed to retrieve user profile. " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+        }
+    }
 
 }
 

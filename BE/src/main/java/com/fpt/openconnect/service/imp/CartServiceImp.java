@@ -8,11 +8,14 @@ import java.util.List;
 
 public interface CartServiceImp {
 
-    boolean insertCart(int quantityProduct, int quantityTicket,
+    boolean insertCart(Integer quantityProduct, Integer quantityTicket,
                        int idUser, int idProduct, int idTicket) throws IOException;
 
-    List<CartResponse> getCartByIdUser(int idUser);
 
     boolean deleteCartById(int idCart);
 
+    List<CartResponse> getCartByIdUser(int idUser);
+
+    // checkout
+    List<CartEntity> getCartsByUserId(int idUser);
 }

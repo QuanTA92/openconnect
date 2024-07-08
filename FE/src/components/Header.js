@@ -37,8 +37,6 @@ export default function Header() {
     }
   };
 
-
-
   return (
     <header className="header">
       <div className="container-fluid">
@@ -48,7 +46,7 @@ export default function Header() {
               <img src="/img/open.png" alt="logo" />
             </div>
           </div>
-          <div className="col-xl-6 col-lg-7">
+          <div className="col-xl-6 col-lg-5">
             <nav className="header__menu">
               <ul>
                 <li>
@@ -61,40 +59,6 @@ export default function Header() {
                     Workshop
                   </Link>
                 </li>
-                {/* <li>
-                  <Link to="/shop" className="nav-link">
-                    History
-                  </Link>
-                </li> */}
-                {/* <li className="dropdown">
-                  <Link
-                    to="#"
-                    className="nav-link dropdown-toggle"
-                    id="pagesDropdown"
-                    role="button"
-                    data-bs-toggle="dropdown"
-                    aria-expanded="false"
-                  >
-                    Pages
-                  </Link>
-                  <ul className="dropdown-menu" aria-labelledby="pagesDropdown">
-                    <li>
-                      <Link to="/product-details" className="dropdown-item">
-                        Workshop Details
-                      </Link>
-                    </li>
-                    <li>
-                      <Link to="/Cart" className="dropdown-item">
-                        Booking Tickets
-                      </Link>
-                    </li>
-                    <li>
-                      <Link to="/Checkout" className="dropdown-item">
-                        Checkout
-                      </Link>
-                    </li>
-                  </ul>
-                </li> */}
                 <li>
                   <Link to="/About" className="nav-link">
                     About Us
@@ -108,10 +72,25 @@ export default function Header() {
               </ul>
             </nav>
           </div>
-          <div className="col-lg-3">
-            <div className="header__right">
+          <div className="col-xl-3 col-lg-5">
+            <div className="header__right d-flex justify-content-end align-items-center">
+              <div className="search me-3" >
+                <div className="input-group rounded" style={{ width: "440px" }}>
+                  <input
+                    type="search"
+                    className="form-control rounded"
+                    placeholder="Search"
+                    aria-label="Search"
+                    aria-describedby="search-addon"
+                  />
+                  <span className="input-group-text border-0" id="search-addon" style={{ height: "38px" }}>
+                    <i className="fas fa-search"></i>
+                  </span>
+                </div>
+              </div>
+
               {user ? (
-                <ul className="header__right__widget">
+                <ul className="header__right__widget d-flex align-items-center ">
                   <li>
                     <Link to="#" className="nav-link">
                       <span className="icon_heart_alt"></span>
@@ -121,7 +100,6 @@ export default function Header() {
                   <li>
                     <Link to="/Cart" className="nav-link">
                       <span className="icon_bag_alt"></span>
-                      {/* <div className="tip">2</div> */}
                     </Link>
                   </li>
                   <li className="nav-item dropdown">
@@ -157,7 +135,6 @@ export default function Header() {
                         </Link>
                       </li>
                       <li>
-                        {/* Gọi hàm handleLogout khi người dùng nhấp vào "Logout" */}
                         <button
                           className="dropdown-item"
                           onClick={handleLogout}
@@ -169,7 +146,7 @@ export default function Header() {
                   </li>
                 </ul>
               ) : (
-                <div className="header__right__auth">
+                <div className="header__right__auth d-flex">
                   <Link to="/Login" className="btn btn-outline-light fs-5 fw-bold me-2">
                     Login
                   </Link>

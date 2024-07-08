@@ -173,6 +173,10 @@ const Cart = () => {
       return null;
     }
   };
+
+  // Đường dẫn checkout
+  const checkoutUrl = `http://localhost:8080/checkout/${getUserId()}?returnUrl=http://localhost:8080`;
+
   return (
     <>
       <Header />
@@ -248,7 +252,7 @@ const Cart = () => {
                                   <span className="text-muted">
                                     {item.quantityTicket}
                                   </span>{" "}
-                                  x {item.priceTicket} đ
+                                  x {item.priceTicket} VND
                                 </strong>
                               </p>
                             </div>
@@ -276,7 +280,7 @@ const Cart = () => {
                           </div>
                           <span>
                             <strong>
-                              ${" "}
+                              {" "}
                               {Math.round(
                                 cartItems.reduce((acc, cur) => {
                                   if (!isNaN(cur.totalPrice)) {
@@ -285,13 +289,14 @@ const Cart = () => {
                                     return acc;
                                   }
                                 }, 0)
-                              )}
+                              )}{" "}
+                              VND
                             </strong>
                           </span>
                         </li>
                       </ul>
                       <Link
-                        to="/checkout"
+                        to={checkoutUrl}
                         className="btn btn-dark btn-lg btn-block"
                       >
                         Go to checkout

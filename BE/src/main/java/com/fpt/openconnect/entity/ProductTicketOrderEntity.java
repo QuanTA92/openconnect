@@ -12,10 +12,13 @@ public class ProductTicketOrderEntity {
     private ProductTicketOrderKeys keys;
 
     @Column(name = "quantity_product")
-    private int quantityProduct;
+    private Integer quantityProduct;
 
     @Column(name = "quantity_ticket")
-    private double quantityTicket;
+    private Integer quantityTicket;
+
+    @Column(name = "price")
+    private double price;
 
     @ManyToOne
     @JoinColumn(name = "id_product", insertable = false, updatable = false)
@@ -32,14 +35,6 @@ public class ProductTicketOrderEntity {
     @Column(name = "create_date")
     private Date createDate;
 
-    public Date getCreateDate() {
-        return createDate;
-    }
-
-    public void setCreateDate(Date createDate) {
-        this.createDate = createDate;
-    }
-
     public ProductTicketOrderKeys getKeys() {
         return keys;
     }
@@ -48,20 +43,28 @@ public class ProductTicketOrderEntity {
         this.keys = keys;
     }
 
-    public int getQuantityProduct() {
+    public Integer getQuantityProduct() {
         return quantityProduct;
     }
 
-    public void setQuantityProduct(int quantityProduct) {
+    public void setQuantityProduct(Integer quantityProduct) {
         this.quantityProduct = quantityProduct;
     }
 
-    public double getQuantityTicket() {
+    public Integer getQuantityTicket() {
         return quantityTicket;
     }
 
-    public void setQuantityTicket(double quantityTicket) {
+    public void setQuantityTicket(Integer quantityTicket) {
         this.quantityTicket = quantityTicket;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
     }
 
     public ProductEntity getProductEntity() {
@@ -88,5 +91,11 @@ public class ProductTicketOrderEntity {
         this.ordersEntity = ordersEntity;
     }
 
+    public Date getCreateDate() {
+        return createDate;
+    }
 
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
+    }
 }

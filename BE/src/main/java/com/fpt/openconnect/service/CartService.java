@@ -34,7 +34,7 @@ public class CartService implements CartServiceImp {
 
     @Override
     @Transactional
-    public boolean insertCart(int quantityProduct, int quantityTicket, int idUser, int idProduct, int idTicket) {
+    public boolean insertCart(Integer quantityProduct, Integer quantityTicket, int idUser, int idProduct, int idTicket) {
         try {
             // Tìm giỏ hàng của người dùng
             List<CartEntity> cartEntities = cartRepository.findByUserEntityId(idUser);
@@ -56,11 +56,15 @@ public class CartService implements CartServiceImp {
                 if (idProduct != 0) {
                     // Cập nhật quantityProduct nếu sản phẩm đã tồn tại trong giỏ hàng
                     cartToUpdate.setQuantityProduct(cartToUpdate.getQuantityProduct() + quantityProduct);
+                } else {
+                    cartToUpdate.setQuantityProduct(null);
                 }
 
                 if (idTicket != 0) {
                     // Cập nhật quantityTicket nếu vé đã tồn tại trong giỏ hàng
                     cartToUpdate.setQuantityTicket(cartToUpdate.getQuantityTicket() + quantityTicket);
+                } else {
+                    cartToUpdate.setQuantityTicket(null);
                 }
 
                 // Tính lại giá tiền của giỏ hàng sau khi cập nhật số lượng sản phẩm hoặc vé
@@ -72,8 +76,8 @@ public class CartService implements CartServiceImp {
             } else {
                 // Nếu giỏ hàng chưa tồn tại, tạo mới giỏ hàng
                 CartEntity cart = new CartEntity();
-                cart.setQuantityProduct(quantityProduct);
-                cart.setQuantityTicket(quantityTicket);
+                cart.setQuantityProduct(idProduct != 0 ? quantityProduct : null);
+                cart.setQuantityTicket(idTicket != 0 ? quantityTicket : null);
                 UserEntity user = userRepository.findById(idUser).orElseThrow(() -> new IOException("User with ID " + idUser + " not found."));
                 cart.setUserEntity(user);
 
@@ -88,8 +92,8 @@ public class CartService implements CartServiceImp {
                 }
 
                 // Tính giá tiền của giỏ hàng
-                double totalProductPrice = (cart.getProductEntity() != null) ? cart.getProductEntity().getPrice() * quantityProduct : 0;
-                double totalTicketPrice = (cart.getTicketEntity() != null) ? cart.getTicketEntity().getPriceTicket() * quantityTicket : 0;
+                double totalProductPrice = (cart.getProductEntity() != null) ? cart.getProductEntity().getPrice() * (quantityProduct != null ? quantityProduct : 0) : 0;
+                double totalTicketPrice = (cart.getTicketEntity() != null) ? cart.getTicketEntity().getPriceTicket() * (quantityTicket != null ? quantityTicket : 0) : 0;
                 cart.setPriceCart(totalProductPrice + totalTicketPrice);
 
                 cartRepository.save(cart);
@@ -103,15 +107,14 @@ public class CartService implements CartServiceImp {
     }
 
 
-
     @Override
     public List<CartResponse> getCartByIdUser(int idUser) {
-        List<CartEntity> cartEntities = cartRepository.findAllByUserEntityId(idUser);
+        List<CartEntity> cartEntities = cartRepository.findByUserEntityId(idUser);
         List<CartResponse> cartResponses = new ArrayList<>();
 
         for (CartEntity cartEntity : cartEntities) {
             CartResponse cartResponse = new CartResponse();
-            // Điều chỉnh phần này theo cấu trúc của CartResponse của bạn
+
             cartResponse.setIdCart(cartEntity.getId());
             cartResponse.setIdUser(cartEntity.getUserEntity().getId());
             cartResponse.setIdProduct(cartEntity.getProductEntity() != null ? cartEntity.getProductEntity().getId() : 0);
@@ -135,6 +138,7 @@ public class CartService implements CartServiceImp {
 
 
 
+
     @Override
     @Transactional
     public boolean deleteCartById(int idCart) {
@@ -154,4 +158,8 @@ public class CartService implements CartServiceImp {
         }
     }
 
+
+    public List<CartEntity> getCartsByUserId(int userId) {
+        return cartRepository.findByUserEntityId(userId);
+    }
 }

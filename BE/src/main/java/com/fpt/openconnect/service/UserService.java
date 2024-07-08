@@ -2,6 +2,7 @@ package com.fpt.openconnect.service;
 
 import com.fpt.openconnect.entity.RoleEntity;
 import com.fpt.openconnect.entity.UserEntity;
+import com.fpt.openconnect.payload.response.UserResponse;
 import com.fpt.openconnect.repository.RoleRepository;
 import com.fpt.openconnect.repository.UserRepository;
 import com.fpt.openconnect.service.imp.UserServiceImp;
@@ -15,6 +16,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -129,7 +132,32 @@ public class UserService implements UserServiceImp {
         }
     }
 
+    @Override
+    public List<UserResponse> getProfileUserById(int idUser) {
+        List<UserResponse> userResponses = new ArrayList<>();
 
+        // Retrieve user entity by idUser
+        Optional<UserEntity> userEntityOptional = userRepository.findById(idUser);
+
+        if (userEntityOptional.isPresent()) {
+            UserEntity userEntity = userEntityOptional.get();
+
+            // Create UserResponse object and populate with user data
+            UserResponse userResponse = new UserResponse();
+            userResponse.setIdUser(String.valueOf(userEntity.getId()));
+            userResponse.setUserName(userEntity.getUsername());
+            userResponse.setEmail(userEntity.getEmail());
+            userResponse.setPhone(String.valueOf(userEntity.getPhone()));
+            userResponse.setAddress(userEntity.getAddress());
+            userResponse.setImageUser(userEntity.getImage());
+            userResponse.setCreateDate(String.valueOf(userEntity.getCreateDate()));
+
+            // Add userResponse to the list
+            userResponses.add(userResponse);
+        }
+
+        return userResponses;
+    }
 
 
 

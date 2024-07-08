@@ -34,7 +34,7 @@ const Product = () => {
 
       // Xây dựng request body
       const requestBody = {
-        quantityProduct: 1,
+        quantityProduct: 0,
         quantityTicket: 1,
         idUser: userId,
         idProduct: null, // Không có sản phẩm liên kết
